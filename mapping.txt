@@ -1,0 +1,100 @@
+POST /es-sample/produto/_mapping
+{
+   "produto": {
+        "properties": {    	
+			"descricao": {
+				"type": "string",
+				"fields" : {
+                    "sugestao" : {
+						"type" : "completion",
+    					"analyzer" : "sugestao",
+                        "payloads" : true
+					},
+                    "raw" : {
+						"type" : "string",
+						"index" : "not_analyzed"
+					},
+                    "fonetico" : {
+						"type" : "string",
+						"index_analyzer": "analisador_fonetico",
+						"search_analyzer": "analisador_fonetico"
+					},
+                    "sinonimo" : {
+						"type" : "string",
+    					"analyzer" : "sinonimo"
+					}
+                }
+			},
+			"lists" : {
+                "properties" : {
+                    "nome" : {"type" : "string"},
+                    "detalhe" : {"type" : "string"}
+                }
+            },
+			"fabricante": {
+				"type": "string"
+			},
+			"loja_nome": {
+				"type": "string"
+			},
+			"loja_logo": {
+				"type": "string"
+			},
+			"loja_produto_valor": {
+				"type": "double"
+			},
+			"loja_produto_valor_desconto": {
+				"type": "double"
+			},
+			"loja_produto_url": {
+				"type": "string"
+			},
+			"categoria": {
+				"type": "string",
+				"fields" : {
+                    "sugestao" : {
+						"type" : "completion",
+    					"analyzer" : "sugestao",  
+                         "payloads" : true     
+					},
+                    "raw" : {
+						"type" : "string",
+						"index" : "not_analyzed" 
+					},
+                    "sinonimo" : {
+    					"type" : "string",
+    					"analyzer" : "sinonimo"
+					}
+				}
+			},
+			"subcategoria": {
+				"type": "string",
+				"fields" : {
+                    "raw" : {
+						"type" : "string",
+						"index" : "not_analyzed" 
+					},
+                    "sinonimo" : {
+        				"type" : "string",
+    					"analyzer" : "sinonimo"
+					}
+				}
+			},
+			"categoria_detalhe": {
+				"type": "string",
+				"fields" : {
+                    "raw" : {
+						"type" : "string",
+						"index" : "not_analyzed" 
+					}  
+				}
+			},
+			"imagem": {
+				"type": "string"
+			},
+			"prioridade": {
+				"type": "long"
+			}
+		}
+   }
+}

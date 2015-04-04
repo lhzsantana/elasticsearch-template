@@ -1,0 +1,85 @@
+﻿POST /es-sample/produto/_search
+{
+    "fields" : "descricao",
+    "from" : 0, "size" : 10,
+    "sort" : [
+        "_score",
+        "prioridade",
+        "descricao.raw"
+    ],
+    "query" : {
+        "bool": {
+            "should": [
+                {    
+                    "match" : {
+                		"subcategoria.sinonimo" : {
+    						"query" : "vinho",
+                		    "boost" : "3000"			
+    					}    	
+    				}      
+    			},
+                {    
+        			"match" : {
+        				"descricao.sinonimo" : {
+    						"query" : "vinho",
+                		    "boost" : "2000"			
+    					}    	
+    				}
+				},
+            	{
+					"term" : {
+            			"descricao.raw" : {
+							"value" : "vinho",
+            		    	"boost" : "1000"			
+						}
+					}
+				},	
+				{
+					"term" : {
+        				"categoria.raw" : {
+							"value" : "vinho",
+            		    	"boost" : "1000"			
+						}
+					}
+				},
+				{
+					"match" : {
+						"descricao" : {
+							"query" : "vinho",
+            		    	"boost" : "400"			
+						}
+					}
+				},    			
+				{
+					"match" : {
+						"categoria_nome" : {
+							"query" : "vinho",
+                	    	"boost" : "60"			
+						}
+					}
+				},			
+				{
+					"match" : {
+						"descricao" : {
+							"query" : "vinho",
+    				    	"fuzziness" : "1",
+            		    	"boost" : "10"			
+						}
+					}
+				}
+			]
+		}
+	},
+    "aggs" : {
+        "contador_categoria": {
+            "terms" : {
+				"field" : "categoria.raw" 
+			}
+        },
+        "contador_detalhe": {
+            "terms" : {
+    			"field" : "categoria_detalhe.raw" 
+			}
+        }
+    }
+}

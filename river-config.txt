@@ -1,0 +1,13 @@
+PUT /_river/pf_sql/_meta
+{
+"type":"jdbc", 
+"jdbc": {
+"url":"jdbc:sqlserver://189.156.159.82:1433;databaseName=PRICE", 
+"user":"ElasticSearch", 
+"password":"El@5tic!", 
+"index":"es-sample", 
+"type":"produto",
+"sql":
+"SELECT  p.idproduto AS \"_id\",   p.dscProduto AS \"descricao\",    f.dscfabricante AS \"fabricante\",   l.dscLoja AS \"loja_nome\",   ISNULL(l.Logo, '')  AS \"loja_logo\", lp.Prioridade AS \"prioridade\",  lp.Valor AS \"loja_produto_valor\",   isnull(lp.Valor_Desconto, lp.Valor) AS \"loja_produto_valor_desconto\",   lp.URL AS \"loja_produto_url\",   c.imagem AS \"imagem\",   c.nmcategoria  as \"categoria\",  sc.dscsubcategoria as \"subcategoria\",  ISNULL(det.DSCCATEGORIADETALHE,'') AS \"detalhe_nome\",   ISNULL(d.DescDetalhe,'') AS \"categoria_detalhe\"   FROM tbProdutos p  INNER  JOIN tbFabricante f   ON p.idFabricante=f.idFabricante  INNER  JOIN rel_Loja_Produto lp   ON lp.idproduto=p.idProduto  INNER  JOIN tbLoja l   ON lp.idLoja=l.idLoja  INNER  JOIN tbTpProduto tp   ON tp.idtpProduto=p.idtpProduto  INNER  JOIN tbSubCategoria sc   ON sc.idSubCategoria=tp.idSubCategoria  INNER JOIN tbCategoria c   ON sc.idCategoria=c.idCategoria  LEFT  JOIN tbDetalheProduto d   ON d.idProduto=p.idProduto  LEFT  JOIN tbcategoriadetalhe det   on d.idcategoriadetalhe = det.idcategoriadetalhe   WHERE lp.Ativo= 1 AND sc.Ativo= 1 AND c.Ativo=1"
+ }
+ }

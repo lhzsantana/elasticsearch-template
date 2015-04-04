@@ -1,0 +1,47 @@
+PUT /es-sample
+{
+   "number_of_shards":     5,
+   "number_of_replicas": 1,
+   "analysis": {
+      "analyzer": {		
+		 "sinonimo": {
+			"tokenizer": "whitespace",
+			"filter": [
+				"lowercase",
+				"filtro_sinonimo"
+			]
+		 },
+         "sugestao": {
+           "type": "custom",
+           "tokenizer": "whitespace",
+           "filter": [ "asciifolding", "stem_minimal_pt" ]
+         },
+         "comum": {
+           "type": "custom",
+           "tokenizer": "lowercase",
+           "filter": [ "asciifolding", "stem_minimal_pt" ],
+           "char_filter": "html_strip"
+         },
+         "analisador_fonetico" : {
+            "tokenizer" : "lowercase",
+            "filter" : ["asciifolding", "stem_minimal_pt", "filtro_fonetico"]
+         }
+      },
+      "filter": 
+		{
+		 "filtro_sinonimo": {
+			"type": "synonym",
+            "synonyms_path" : "synonym.txt"
+		 },
+         "stem_minimal_pt": {
+            "type": "stemmer",
+            "language": "minimal_portuguese"
+         },
+         "filtro_fonetico" : {
+            "type" : "phonetic",
+            "encoder": "soundex",
+            "replace" : false
+        }
+      }
+   }
+}

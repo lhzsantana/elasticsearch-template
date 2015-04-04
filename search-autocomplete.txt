@@ -1,0 +1,21 @@
+POST /es-sample/_suggest
+{
+    "sugestao_produto" : {
+        "text" : "bol",
+        "completion" : {
+            "field" : "nome.sugestao",
+            "fuzzy" : {
+                "fuzziness" : 2
+            }
+        }
+    },
+	"sugestao_categoria" : {
+        "text" : "BOL",
+        "completion" : {
+            "field" : "categoria_nome.sugestao",
+            "fuzzy" : {
+                "fuzziness" : 2
+            }
+        }
+    }
+}
